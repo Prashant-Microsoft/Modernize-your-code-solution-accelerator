@@ -1,7 +1,5 @@
-// src/config.js
-
-export let API_URL = null;
-export let USER_ID = null;
+export let API_URL= null;
+export let USER_ID= null;
 
 export let config = {
   API_URL: "http://localhost:8000",
@@ -57,7 +55,7 @@ export function getApiUrl() {
 }
 
 export function getUserId() {
-  USER_ID = window.activeUserId;
+  USER_ID = window.activeUserId ?? null;
   const userId = USER_ID ?? "00000000-0000-0000-0000-000000000000";
   return userId;
 }

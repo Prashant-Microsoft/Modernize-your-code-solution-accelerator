@@ -44,6 +44,7 @@ class Config:
                 tenant_id=self.azure_tenant_id,
                 client_id=self.azure_client_id,
                 client_secret=self.azure_client_secret,
+                #additionally_allowed_tenants="*"
             )
         return self.__azure_credentials
 

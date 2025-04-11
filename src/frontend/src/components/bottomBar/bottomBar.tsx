@@ -1,6 +1,8 @@
 import { Button, Card, Dropdown, DropdownProps, Option } from "@fluentui/react-components"
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { updateBatchSummary } from "../../store/modernizationSlice"
+import { useDispatch } from "react-redux"
 
 // Define possible upload states
 const UploadState = {
@@ -22,7 +24,7 @@ interface BottomBarProps {
 }
 
 const BottomBar: React.FC<BottomBarProps> = ({ uploadState = UploadState.IDLE, onCancel, onStartTranslating, selectedTargetLanguage, selectedCurrentLanguage, onTargetLanguageChange, onCurrentLanguageChange }) => {
-
+  const dispatch = useDispatch()
   const handleCancel = () => {
     if (onCancel) {
       onCancel()
@@ -43,8 +45,28 @@ const BottomBar: React.FC<BottomBarProps> = ({ uploadState = UploadState.IDLE, o
 
   const handleStartTranslating = () => {
     if (uploadState === UploadState.COMPLETED) {
+      dispatch(updateBatchSummary({
+        batch_id: "",
+        upload_id: "",
+        date_created: "",
+        total_files: 0,
+        completed_files: 0,
+        error_count: 0,
+        status: "",
+        warning_count: 0,
+        hasFiles: 0,
+        files: [] as {
+          file_id: string;
+          name: string;
+          status: string;
+          error_count: number;
+          warning_count: number;
+          file_logs: any[];
+          content?: string;
+          translated_content?: string;
+        }[],
+      }));
       onStartTranslating()
-
     }
   }
   

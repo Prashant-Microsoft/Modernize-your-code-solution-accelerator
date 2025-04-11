@@ -1,4 +1,4 @@
-import { getApiUrl } from '../api/config';
+import { getApiUrl } from "./config";
 
 // WebSocketService.ts
 type EventHandler = (data: any) => void;
@@ -8,7 +8,8 @@ class WebSocketService {
   private eventHandlers: Record<string, EventHandler[]> = {};
 
   connect(batch_id: string): void {
-    let apiUrl = getApiUrl();
+    let apiUrl = getApiUrl() as string | null;
+    
     console.log('API URL: websocket', apiUrl);
     if (apiUrl) {
       apiUrl = apiUrl.replace(/^https?/, match => match === "https" ? "wss" : "ws");

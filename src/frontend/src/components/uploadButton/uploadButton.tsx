@@ -9,10 +9,10 @@ import {
   Tooltip,
 } from "@fluentui/react-components";
 import { MessageBar, MessageBarType } from "@fluentui/react";
-import { deleteBatch, deleteFileFromBatch, uploadFile, startProcessing } from '../slices/batchSlice';
+import { deleteBatch, deleteFileFromBatch, uploadFile, startProcessing } from '../../store/batchSlice';
 import { useDispatch } from 'react-redux';
-import ConfirmationDialog from '../commonComponents/ConfirmationDialog/confirmationDialogue';
-import { AppDispatch } from '../store/store'
+import ConfirmationDialog from '../../commonComponents/ConfirmationDialog/confirmationDialogue';
+import { AppDispatch } from '../../store/store'
 import { v4 as uuidv4 } from 'uuid';
 import "./uploadStyles.css";
 import { useNavigate } from "react-router-dom";

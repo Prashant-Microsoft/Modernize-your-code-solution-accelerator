@@ -3,10 +3,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { Card, Spinner, Tooltip } from "@fluentui/react-components";
 import { useNavigate } from "react-router-dom";
-import ConfirmationDialog from "../commonComponents/ConfirmationDialog/confirmationDialogue";
+import ConfirmationDialog from "../../commonComponents/ConfirmationDialog/confirmationDialogue";
 import "./batchHistoryPanel.css"
-import { deleteBatch, fetchBatchHistory, deleteAllBatches } from '../slices/batchSlice';
-import { AppDispatch } from '../store/store';
+import { deleteBatch, fetchBatchHistory, deleteAllBatches } from '../../store/batchSlice';
+import { AppDispatch } from '../../store/store';
+import { updateBatchSummary } from "../../store/modernizationSlice";
 
 interface HistoryPanelProps {
   isOpen: boolean;
@@ -34,6 +35,27 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ isOpen, onClose }) => {
   const hasFetched = useRef(false);
   const handleBatchNavigation = (batch: BatchHistoryItem) => {
     onClose(); // Ensure panel closes before navigation
+    dispatch(updateBatchSummary({
+      batch_id: "",
+      upload_id: "",
+      date_created: "",
+      total_files: 0,
+      completed_files: 0,
+      error_count: 0,
+      status: "",
+      warning_count: 0,
+      hasFiles: 0,
+      files: [] as {
+        file_id: string;
+        name: string;
+        status: string;
+        error_count: number;
+        warning_count: number;
+        file_logs: any[];
+        content?: string;
+        translated_content?: string;
+      }[],
+    })); // Reset batch summary in Redux store
     requestAnimationFrame(() => {
       if (batch.status?.toLowerCase() === "completed") {
         navigate(`/batch-view/${batch.batch_id}`);

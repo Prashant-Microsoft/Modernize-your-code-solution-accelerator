@@ -1,6 +1,7 @@
 import React, { useState, useEffect, ReactNode, ReactElement } from "react";
 import eventBus from "../eventbus.js";
 import PanelRightToolbar from "./PanelRightToolbar"; // Import to identify toolbar
+import "./Panels.scss"
 
 interface PanelRightProps {
   panelWidth?: number; // Optional width of the panel
@@ -82,17 +83,9 @@ const PanelRight: React.FC<PanelRightProps> = ({
 
   return (
     <div
-      className="panelRight"
+      className="panels"
       style={{
         width: `${width}px`,
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: "#fafafa",
-        height: "100%",
-        boxSizing: "border-box",
-        position: "fixed",
-        top: 60,
-        right: 0,
         borderLeft: panelResize
           ? isHandleHovered
             ? "2px solid var(--colorNeutralStroke2)"

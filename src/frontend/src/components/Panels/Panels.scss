@@ -1,0 +1,10 @@
+.panels{
+    display: flex !important;
+    flex-direction: column !important;
+    background-color: #fafafa !important;
+    height: 100% !important;
+    box-sizing: border-box !important;
+    position: fixed !important;
+    top: 60px;
+    right: 0;
+}

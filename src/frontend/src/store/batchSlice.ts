@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { getApiUrl, headerBuilder } from '../api/config';
+import httpUtility from '../utils/ApiService';
 
 // Dummy API call for batch deletion
 export const deleteBatch = createAsyncThunk<
@@ -11,9 +10,9 @@ export const deleteBatch = createAsyncThunk<
   'batch/deleteBatch',
   async ({ batchId, headers }: { batchId: string; headers?: Record<string, string> | null }, { rejectWithValue }) => {
     try {
-      const apiUrl = getApiUrl();
-      const response = await axios.delete(`${apiUrl}/delete-batch/${batchId}`, { headers: headerBuilder(headers) });
-      return response.data;
+      
+      const response:any = await httpUtility.delete(`/delete-batch/${batchId}`);
+      return response;
     } catch (error: any) {
       return rejectWithValue(error.response?.data || 'Failed to delete batch');
     }
@@ -24,11 +23,11 @@ export const deleteFileFromBatch = createAsyncThunk(
   'batch/deleteFileFromBatch',
   async (fileId: string, { rejectWithValue }) => {
     try {
-      const apiUrl = getApiUrl();
-      const response = await axios.delete(`${apiUrl}/delete-file/${fileId}`, { headers: headerBuilder({}) });
+      
+      const response:any = await httpUtility.delete(`/delete-file/${fileId}`);
 
       // Return the response data
-      return response.data;
+      return response;
     } catch (error) {
       // Handle the error
       return rejectWithValue(error.response?.data || 'Failed to delete batch');
@@ -48,13 +47,9 @@ export const uploadFile = createAsyncThunk('/upload', // Updated action name
       // Append the single file 
       formData.append("file", payload.file);
       //formData.append("file_uuid", payload.uuid);
-      const apiUrl = getApiUrl();
-      const response = await axios.post(`${apiUrl}/upload`, formData, {
-        headers: headerBuilder({
-          "Content-Type": "multipart/form-data"
-        })
-      });
-      return response.data;
+      
+      const response:any = await httpUtility.post(`/upload`, formData);
+      return response;
     } catch (error) {
       return rejectWithValue(error.response?.data || 'Failed to upload file');
     }
@@ -119,10 +114,10 @@ export const startProcessing = createAsyncThunk(
         translate_from: payload.translateFrom, // Empty for now
         translate_to: payload.translateTo, // Either "sql" or "postgress"
       };
-      const apiUrl = getApiUrl();
-      const response = await axios.post(`${apiUrl}/start-processing`, requestData, { headers: headerBuilder({}) });
+      
+      const response:any = await httpUtility.post(`/start-processing`, requestData);
 
-      const data = response.data
+      const data = response
 
       return await data;
     } catch (error) {
@@ -140,10 +135,10 @@ export const fetchBatchHistory = createAsyncThunk(
   "batch/fetchBatchHistory",
   async ({ headers }: FetchBatchHistoryPayload, { rejectWithValue }) => {
     try {
-      const apiUrl = getApiUrl();
+      
 
-      const response = await axios.get(`${apiUrl}/batch-history`, { headers: headerBuilder(headers) });
-      return response.data;
+      const response:any = await httpUtility.get(`/batch-history`);
+      return response;
     } catch (error) {
       if (error.response && error.response.status === 404) {
         return [];
@@ -157,9 +152,9 @@ export const deleteAllBatches = createAsyncThunk(
   "batch/deleteAllBatches",
   async ({ headers }: { headers: Record<string, string> }, { rejectWithValue }) => {
     try {
-      const apiUrl = getApiUrl();
-      const response = await axios.delete(`${apiUrl}/delete_all`, { headers: headerBuilder(headers) });
-      return response.data;
+ 
+      const response:any = await httpUtility.delete(`/delete_all`);
+      return response;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Failed to delete all batch history");
     }
