@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ErrorWarningProps } from "../types/types";
+import { ErrorWarningProps } from "../../types/types";
 
 export const ErrorWarningSection: React.FC<ErrorWarningProps> = ({ title, count, type, items }) => {
   return (

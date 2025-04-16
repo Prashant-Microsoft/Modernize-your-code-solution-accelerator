@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Card, Spinner, Tooltip } from "@fluentui/react-components";
 import { useNavigate } from "react-router-dom";
 import ConfirmationDialog from "../../commonComponents/ConfirmationDialog/confirmationDialogue";
-import "./batchHistoryPanel.css"
+import "./batchHistoryPanel.scss"
 import { deleteBatch, fetchBatchHistory, deleteAllBatches } from '../../store/batchSlice';
 import { AppDispatch } from '../../store/store';
 import { updateBatchSummary } from "../../store/modernizationSlice";
@@ -218,41 +218,13 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ isOpen, onClose }) => {
     </div> */}
 
       {loading ? (
-        <div className="loading-container"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%",
-            width: "100%",
-            position: "absolute",
-            top: 0,
-            left: 0,
-          }}>
+        <div className="loading-container loader">
           <Spinner size="large" label="Loading..." labelPosition="below" />
         </div>
       ) : error ? (
-        <p style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-          width: "100%",
-          position: "absolute",
-          top: 0,
-          left: 0,
-        }}>{error}</p>
+        <p className="errorContainer">{error}</p>
       ) : batchHistory.length === 0 ? (
-        <p style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-          width: "100%",
-          position: "absolute",
-          top: 0,
-          left: 0,
-        }}>No batch history available.</p>
+        <p className="infoContainer">No batch history available.</p>
       ) : (
         <div className="batch-list">
           {batchHistory.map(batch => (
@@ -263,20 +235,9 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ isOpen, onClose }) => {
               onMouseLeave={() => setHoveredBatchId(null)}
               style={{
                 backgroundColor: hoveredBatchId === batch.batch_id ? "#e1e1e1" : "transparent",
-                boxShadow: "none",
-                border: "none",
-                transition: "background-color 0.3s ease",
               }}
             >
-              <div className="batch-details"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  padding: "3px",
-                  height: "5px",
-                  gap: "8px",
-                }}>
+              <div className="batch-details">
                 <span className="batch-details-name" onClick={() => handleBatchNavigation(batch)}>
                   {(() => {
                     const date = new Date(batch.created_at);
@@ -296,19 +257,7 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ isOpen, onClose }) => {
                         setSelectedBatchId(batch.batch_id);
                         setShowDeleteDialog(true);
                       }}
-                      style={{
-                        border: 'none',
-                        background: 'none',
-                        cursor: 'pointer',
-                        padding: '2px',
-                        color: '#666',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: '24px',
-                        height: '24px',
-                        fontSize: '16px'
-                      }}>
+                      >
                       ✕
                     </button>
                   </Tooltip>

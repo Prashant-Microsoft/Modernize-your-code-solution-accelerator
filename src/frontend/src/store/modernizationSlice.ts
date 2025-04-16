@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import httpUtility from "../utils/ApiService";
+import httpUtility from "../utils/httpUtil";
 import { BatchSummary } from "../types/types";
 import { completedFiles, filesFinalErrorCounter, filesErrorCounter, hasFiles, fileWarningCounter, fileErrorCounter, filesLogsBuilder } from "../utils/utils";
 

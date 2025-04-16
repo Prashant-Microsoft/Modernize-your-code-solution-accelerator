@@ -100,49 +100,52 @@ const BatchStoryPage = () => {
   }, [batchId]);
 
   useEffect(() => {
-    setLocalBatchSummary(batchSummary);
-    setUploadId(batchSummary.upload_id);
+    if(batchSummary && batchSummary.batch_id !=='' && batchSummary.upload_id !==''){
+      setLocalBatchSummary(batchSummary);
+      setUploadId(batchSummary.upload_id);
 
-    // Set batch title with date and file count
-    const formattedDate = new Date(
-      batchSummary.date_created
-    ).toLocaleDateString();
-    setBatchTitle(
-      `${formattedDate} (${batchSummary.total_files} file${
-        batchSummary.total_files === 1 ? "" : "s"
-      })`
-    );
-    // Create file list from API response
-    const fileItems: FileItem[] = batchSummary.files.map((file) => ({
-      id: file.file_id,
-      name: file.name, // This is now the original_name from API
-      type: "code",
-      status: determineFileStatus(file),
-      code: "", // Don't store content here, will fetch on demand
-      translatedCode: "", // Don't store content here, will fetch on demand
-      errorCount: file.error_count,
-      file_logs: file.file_logs,
-      warningCount: file.warning_count,
-    }));
+      // Set batch title with date and file count
+      const formattedDate = new Date(
+        batchSummary.date_created
+      ).toLocaleDateString();
+      setBatchTitle(
+        `${formattedDate} (${batchSummary.total_files} file${
+          batchSummary.total_files === 1 ? "" : "s"
+        })`
+      );
+      // Create file list from API response
+      const fileItems: FileItem[] = batchSummary.files.map((file) => ({
+        id: file.file_id,
+        name: file.name, // This is now the original_name from API
+        type: "code",
+        status: determineFileStatus(file),
+        code: "", // Don't store content here, will fetch on demand
+        translatedCode: "", // Don't store content here, will fetch on demand
+        errorCount: file.error_count,
+        file_logs: file.file_logs,
+        warningCount: file.warning_count,
+      }));
 
-    // Add summary file
-    const updatedFiles: FileItem[] = [
-      {
-        id: "summary",
-        name: "Summary",
-        type: "summary",
-        status: "completed",
-        errorCount: batchSummary.error_count,
-        warningCount: batchSummary.warning_count,
-        file_logs: [],
-      },
-      ...fileItems,
-    ];
+      // Add summary file
+      const updatedFiles: FileItem[] = [
+        {
+          id: "summary",
+          name: "Summary",
+          type: "summary",
+          status: "completed",
+          errorCount: batchSummary.error_count,
+          warningCount: batchSummary.warning_count,
+          file_logs: [],
+        },
+        ...fileItems,
+      ];
 
-    setFiles(updatedFiles as FileItem[]);
-    setSelectedFileId("summary"); // Default to summary view
-    setDataLoaded(true);
-    setLoading(false);
+      setFiles(updatedFiles as FileItem[]);
+      setSelectedFileId("summary"); // Default to summary view
+      setDataLoaded(true);
+      setLoading(false);
+    }
+    
   }, [batchSummary]);
 
   // Fetch file content when a file is selected

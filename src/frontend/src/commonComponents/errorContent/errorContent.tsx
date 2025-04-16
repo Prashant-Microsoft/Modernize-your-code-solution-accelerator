@@ -1,16 +1,15 @@
 import { Accordion, AccordionItem, AccordionHeader, AccordionPanel,Text } from "@fluentui/react-components";
 import React from "react";
 import { TbSql } from "react-icons/tb";
-import { useStyles } from "./errorContent.styles";
+import './errorContent.scss';
 import ErrorComponent from "../errorsComponent/errorComponent";
 
 export const ErrorContent = (props) => {
-  // Group errors by file
-  const styles= useStyles();
+
   const errorFiles = props?.batchSummary.files.filter(file => file.error_count && file.error_count);
   if (errorFiles.length === 0) {
     return (
-      <div className={styles.errorItem}>
+      <div className="errorItem">
         <Text>No errors found.</Text>
       </div>
     );
@@ -22,7 +21,7 @@ export const ErrorContent = (props) => {
         {errorFiles.map((file, idx) => (
           <AccordionItem key={idx} value={file.file_id}>
             <AccordionHeader>
-              <TbSql style={{ fontSize: 16, color: "#519ABA" }} />
+              <TbSql className="tbSql" />
               {file.name} ({file.error_count})
             </AccordionHeader>
             <AccordionPanel>

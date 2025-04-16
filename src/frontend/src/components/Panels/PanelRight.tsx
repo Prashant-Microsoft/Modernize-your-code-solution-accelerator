@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ReactNode, ReactElement } from "react";
-import eventBus from "../eventbus.js";
+import eventBus from "../common/eventbus.js";
 import PanelRightToolbar from "./PanelRightToolbar"; // Import to identify toolbar
 import "./Panels.scss"
 
@@ -93,15 +93,10 @@ const PanelRight: React.FC<PanelRightProps> = ({
           : "none",
       }}
     >
-      {toolbar && <div style={{ flexShrink: 0 }}>{toolbar}</div>}
+      {toolbar && <div className="fs_0">{toolbar}</div>}
 
       <div
-        className="panelContent"
-        style={{
-          flex: 1,
-          overflowY: "auto",
-          scrollbarWidth: "thin",
-        }}
+        className="panelContent content2"
       >
         {content}
       </div>
@@ -113,13 +108,6 @@ const PanelRight: React.FC<PanelRightProps> = ({
           onMouseEnter={() => setIsHandleHovered(true)}
           onMouseLeave={() => setIsHandleHovered(false)}
           style={{
-            position: "absolute",
-            top: 0,
-            right: 0,
-            width: "2px",
-            height: "100%",
-            cursor: "ew-resize",
-            zIndex: 1,
             backgroundColor: isHandleHovered
               ? "var(--colorNeutralStroke2)"
               : "transparent",

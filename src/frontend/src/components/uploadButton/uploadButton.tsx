@@ -14,7 +14,7 @@ import { useDispatch } from 'react-redux';
 import ConfirmationDialog from '../../commonComponents/ConfirmationDialog/confirmationDialogue';
 import { AppDispatch } from '../../store/store'
 import { v4 as uuidv4 } from 'uuid';
-import "./uploadStyles.css";
+import "./uploadStyles.scss";
 import { useNavigate } from "react-router-dom";
 
 interface FileUploadZoneProps {
@@ -346,7 +346,7 @@ const FileUploadZone: React.FC<FileUploadZoneProps> = ({
   }, [fileLimitExceeded]);
 
   return (
-    <div style={{ width: '100%', minWidth: '720px', maxWidth: '800px', margin: '0 auto', marginTop: '0', padding: '16px', paddingBottom: '60px' }}>
+    <div className='containerClass'>
       <ConfirmationDialog
         open={showCancelDialog}
         setOpen={setShowCancelDialog}
@@ -380,33 +380,18 @@ const FileUploadZone: React.FC<FileUploadZoneProps> = ({
       />
 
       {uploadingFiles.length === 0 && (
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '16px',
-          marginBottom: '90px',
-          textAlign: 'center'
-        }}>
-          <h1 style={{
-            fontSize: '24px',
-            fontWeight: 'bold',
-            margin: 0
-          }}>
+        <div className='uploadContainer' >
+          <h1 className='title'>
             Modernize your code
           </h1>
-          <p style={{
-            fontSize: '16px',
-            fontWeight: '600',
-            margin: 0
-          }}>
+          <p className='label'>
             Modernize your code by updating the language with AI
           </p>
         </div>
       )}
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-        <h2 style={{ fontSize: '16px', margin: 0 }}>
+      <div className='informationContainer'>
+        <h2 className='infoMessage'>
           {uploadingFiles.length > 0
             ? `Uploading (${uploadingFiles.filter(f => f.status === 'completed').length}/${uploadingFiles.length})`
             : 'Upload files in batch'
@@ -416,43 +401,29 @@ const FileUploadZone: React.FC<FileUploadZoneProps> = ({
 
       <div
         {...getRootProps()}
+        className='uploadingFilesInfo'
         style={{
-          width: '100%',
-          border: "2px dashed #ccc",
-          borderRadius: "4px",
           padding: uploadingFiles.length > 0 ? "16px" : "40px",
-          backgroundColor: '#FAFAFA',
-          display: 'flex',
           flexDirection: uploadingFiles.length > 0 ? 'row' : 'column',
-          alignItems: 'center',
           justifyContent: uploadingFiles.length > 0 ? 'space-between' : 'center',
           height: uploadingFiles.length > 0 ? '80px' : '251px',
-          marginBottom: '16px',
         }}
       >
         <input {...getInputProps()} />
 
         {uploadingFiles.length > 0 ? (
           <>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div className='fileUploadContainer'>
               <img
                 src="/images/Arrow-Upload.png"
                 alt="Upload Icon"
-                style={{ width: 32, height: 32 }}
+                className='uploadImage'
               />
               <div>
-                <p style={{
-                  margin: '0',
-                  fontSize: '16px',
-                  color: '#333'
-                }}>
+                <p className='uploadInfoMsg'>
                   Drag and drop files here
                 </p>
-                <p style={{
-                  margin: '4px 0 0 0',
-                  fontSize: '12px',
-                  color: '#666'
-                }}>
+                <p className='uploadLimitInfoMsg'>
                   Limit {Math.floor(maxSize / (1024 * 1024))}MB per file • SQL Only • {uploadingFiles.length}/{MAX_FILES} files
                 </p>
               </div>
@@ -464,13 +435,7 @@ const FileUploadZone: React.FC<FileUploadZoneProps> = ({
                 e.stopPropagation();
                 open();
               }}
-              style={{
-                minWidth: '120px',
-                backgroundColor: 'white',
-                border: '1px solid grey',
-                borderRadius: '4px',
-                height: '32px'
-              }}
+              className='browseBtn'
             >
               Browse files
             </Button>
@@ -480,17 +445,12 @@ const FileUploadZone: React.FC<FileUploadZoneProps> = ({
             <img
               src="/images/Arrow-Upload.png"
               alt="Upload Icon"
-              style={{ width: 64, height: 64 }}
+              className='uploadIcon'
             />
-            <p style={{
-              margin: '16px 0 0 0',
-              fontSize: '18px',
-              color: '#333',
-              fontWeight: '600'
-            }}>
+            <p className='dragdropMsg'>
               Drag and drop files here
             </p>
-            <p style={{ margin: '8px 0', fontSize: '14px', color: '#666' }}>
+            <p className='dragdropMsg2'>
               or
             </p>
             <Button
@@ -500,27 +460,18 @@ const FileUploadZone: React.FC<FileUploadZoneProps> = ({
                 e.stopPropagation();
                 open();
               }}
-              style={{
-                minWidth: '120px',
-                backgroundColor: 'white',
-                border: '1px solid grey',
-                borderRadius: '4px',
-              }}
+              className='browseBtn2'
             >
               Browse files
             </Button>
-            <p style={{
-              margin: '8px 0 0 0',
-              fontSize: '12px',
-              color: '#666'
-            }}>
+            <p className='uploadLimitInfoMsg2'>
               Limit {Math.floor(maxSize / (1024 * 1024))}MB per file • SQL Only • {MAX_FILES} files max
             </p>
           </>
         )}
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '13px', width: '837px', paddingBottom: 10, borderRadius: '4px', }}>
+      <div className='messagebarContainer'>
         {allUploadsComplete && (
           <MessageBar
             messageBarType={MessageBarType.success}
@@ -530,12 +481,12 @@ const FileUploadZone: React.FC<FileUploadZoneProps> = ({
               icon: { display: "none" },
             }}
           >
-            <div style={{ display: "flex", alignItems: "left" }}>
+            <div className='iconContainer2'>
               <CircleCheck
                 strokeWidth="2.5px"
                 color="#37a04c"
                 size="16px" // Slightly larger for better balance
-                style={{ marginRight: "8px" }}
+                className='mr_8'
               />
               <span>All valid files uploaded successfully!</span>
             </div>
@@ -556,7 +507,7 @@ const FileUploadZone: React.FC<FileUploadZoneProps> = ({
               strokeWidth="2.5px"
               color='#d83b01'
               size='14px'
-              style={{ marginRight: "12px", paddingTop: 3 }}
+              className='xBtn'
             />
             Maximum of {MAX_FILES} files allowed. Some files were not uploaded.
           </MessageBar>
@@ -564,54 +515,23 @@ const FileUploadZone: React.FC<FileUploadZoneProps> = ({
       </div>
 
       {uploadingFiles.length > 0 && (
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-          width: '837px',
-          maxHeight: '300px',
-          overflowY: 'auto',
-          scrollbarWidth: 'thin'
-        }}>
+        <div className='uploadedFilesContainer'>
           {uploadingFiles.map((file) => (
             <div
               key={file.id}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                padding: '8px 12px',
-                backgroundColor: 'white',
-                borderRadius: '4px',
-                border: '1px solid #eee',
-              }}
+              className='fileMainContainer'
             >
-              <div style={{ display: 'flex', alignItems: 'center', width: '24px' }}>
+              <div className='fileImageContainer'>
                 📄
               </div>
               <Tooltip content={file.file.name} relationship="label">
                 <div
-                  style={{
-                    width: 80,
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    fontSize: "14px",
-                    alignItems: "left",
-                    cursor: "pointer",
-                    textAlign: "left",
-                  }}
+                  className='tooltipClass'
                 >
                   {file.file.name}
                 </div>
               </Tooltip>
-              <div style={{
-                flex: 1,
-                height: '4px',
-                backgroundColor: '#eee',
-                borderRadius: '2px',
-                overflow: 'hidden'
-              }}>
+              <div className='statusContainer'>
                 <div
                   style={{
                     width: `${file.progress}%`,
@@ -629,18 +549,7 @@ const FileUploadZone: React.FC<FileUploadZoneProps> = ({
                     e.stopPropagation();
                     removeFile(file.id);
                   }}
-                  style={{
-                    border: 'none',
-                    background: 'none',
-                    cursor: 'pointer',
-                    padding: '4px',
-                    color: '#666',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '24px',
-                    height: '24px'
-                  }}
+                  className='removeBtn'
                 >
                   ✕
                 </button>

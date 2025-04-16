@@ -281,4 +281,102 @@ export const useStyles = makeStyles({
     overflowY: "auto",
     paddingBottom: "60px", /* Add padding to prevent content from being hidden behind the fixed buttons */
   },
+  textColor:{
+    color: tokens.colorNeutralForeground3,
+  },
+  loadingContainer:{
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "50vh",
+  },
+  gettingRedayInfo:{
+    marginTop: "16px",
+    fontSize: "24px",
+    fontWeight: "600" 
+  },
+  p_20:{
+    padding: "20px",
+  },
+  spinnerCon:{
+    padding: "20px",
+    textAlign: "center"
+  },
+  progressText:{
+    marginBottom: "20px",
+    marginTop: "40px"
+  },
+  percentageTextContainer:{
+    display: "flex",
+    justifyContent: "flex-end"
+  },
+  percentageText:{
+    fontWeight: "bold",
+    color: "#333"
+  },
+  progressIcon:{
+    width: "160px",
+    height: "160px"
+  },
+  fileLog:{
+    display: "flex",
+    alignItems: "center"
+  },
+  fileLogText1:{
+    fontSize: "16px",
+    marginRight: "4px",
+    alignSelf: "flex-start",
+  },
+  fileLogText2:{
+    fontSize: "16px",
+    color: "#333",
+    marginLeft: "4px",
+  },
+  loadingText:{
+    padding: "20px", 
+    textAlign: "center"
+  },
+  successContainer:{
+    textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: "60px",
+    height: "50vh",
+
+    img:{
+      width: "100px",
+      height: "100px",
+      marginBottom: "24px",
+    }
+  },
+  mb_24:{
+    marginBottom: "24px"  
+  },
+  mb_16:{
+    marginBottom: "16px"
+  },
+  checkMarkIcon:{
+    color: "#0B6A0B",
+    width: "16px",
+    height: "16px",
+  },
+  dismissIcon:{
+    color: "#BE1100",
+    width: "16px",
+    height: "16px",
+  },
+  warningIcon:{
+    color: "#B89500",
+    width: "16px",
+    height: "16px",
+  },
+  completedIcon:{
+    color: "#0B6A0B",
+    width: "16px",
+    height: "16px",
+  }
+
 });

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { FileItemProps } from "../types/types";
+import { FileItemProps } from "../../types/types";
 
 export const FileItem: React.FC<FileItemProps> = ({ name, count, type, icon, details }) => {
   return (

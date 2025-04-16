@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { StepProps } from "../types/types";
+import { StepProps } from "../../types/types";
 
 export const Step: React.FC<StepProps> = ({ icon, title, status, isLast }) => {
   return (

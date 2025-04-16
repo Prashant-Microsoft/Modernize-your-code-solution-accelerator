@@ -8,7 +8,7 @@ import { store } from './store/store';
 import AuthProvider from './msal-auth/AuthProvider';
 import { setEnvData, setApiUrl, config as defaultConfig } from './utils/config.js';
 import { initializeMsalInstance } from './msal-auth/msalInstance';
-import {updateUrl} from './utils/ApiService.js';
+import {updateUrl} from './utils/httpUtil.js';
 
 const Main = () => {
   const [isConfigLoaded, setIsConfigLoaded] = useState(false);

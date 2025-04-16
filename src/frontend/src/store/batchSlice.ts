@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import httpUtility from '../utils/ApiService';
+import httpUtility from '../utils/httpUtil';
 
 // Dummy API call for batch deletion
 export const deleteBatch = createAsyncThunk<

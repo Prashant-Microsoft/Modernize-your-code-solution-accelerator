@@ -32,8 +32,8 @@ background: #f1f1f1; /* Track color */
 }
 
 .main-content {
-  overflow: hidden;
-  overflow-y: auto;
+  // overflow: hidden;
+  // overflow-y: auto;
   flex: 1;
   /* //margin-top: 60px; Same as header height */
   margin-bottom: 50px; /* Adjust based on bottom bar height */
@@ -51,17 +51,17 @@ background: #f1f1f1; /* Track color */
 
 
 
-.landing-page p {
-  font-size: 1.2rem;
-  font-weight: bold;
-}
+// .landing-page p {
+//   font-size: 1.2rem;
+//   font-weight: bold;
+// }
 
 .landing-page main {
-  padding-top: 16rem; /* Adjust the value as needed */
+  //padding-top: 16rem; /* Adjust the value as needed */
 }
 
 .landing-page p {
-  margin-bottom: 8rem; /* Space between text and upload button */
+  //margin-bottom: 8rem; /* Space between text and upload button */
 }
 
 .panelRight{

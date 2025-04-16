@@ -144,7 +144,7 @@ const ModernizationPage = () => {
   };
 
   useEffect(() => {
-    if (batchSummary) {
+    if (batchSummary  && batchSummary.batch_id !=='' && batchSummary.upload_id !=='') {
       const batchCompleted =
         batchSummary?.status?.toLowerCase() === "completed" ||
         batchSummary?.status === "failed";
@@ -618,7 +618,7 @@ const ModernizationPage = () => {
           <Text size={500} weight="semibold">
             {title}
           </Text>
-          <Text size={200} style={{ color: tokens.colorNeutralForeground3 }}>
+          <Text size={200} className={styles.textColor}>
             AI-generated content may be incorrect
           </Text>
         </div>
@@ -645,7 +645,7 @@ const ModernizationPage = () => {
         >
           <Spinner size="large" />
           <Text
-            style={{ marginTop: "16px", fontSize: "24px", fontWeight: "600" }}
+            className={styles.gettingRedayInfo}
           >
             Getting things ready
           </Text>
@@ -675,7 +675,7 @@ const ModernizationPage = () => {
                   <Card className={styles.warningContent}>
                     <Text weight="semibold">File processed with warnings</Text>
                   </Card>
-                  <Text style={{ padding: "20px" }}>
+                  <Text className={styles.p_20}>
                     <ErrorComponent file={selectedFile} />
                   </Text>
                 </>
@@ -696,7 +696,7 @@ const ModernizationPage = () => {
               ) : selectedFile.status === "completed" &&
                 !selectedFile.translatedCode &&
                 !selectedFile.errorCount ? (
-                <div style={{ padding: "20px", textAlign: "center" }}>
+                <div className={styles.spinnerCon}>
                   <Spinner />
                   <Text>Loading file content...</Text>
                 </div>
@@ -706,7 +706,7 @@ const ModernizationPage = () => {
                   <Card className={styles.errorContent}>
                     <Text weight="semibold">Unable to process the file</Text>
                   </Card>
-                  <Text style={{ padding: "20px" }}>
+                  <Text className={styles.p_20}>
                     <ErrorComponent file={selectedFile} />
                   </Text>
                 </>
@@ -725,7 +725,7 @@ const ModernizationPage = () => {
               <Text
                 size={600}
                 weight="semibold"
-                style={{ marginBottom: "20px", marginTop: "40px" }}
+                className={styles.progressText}
               >
                 Progress tracker
               </Text>
@@ -738,8 +738,8 @@ const ModernizationPage = () => {
                   }}
                 />
               </div>
-              <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <Text style={{ fontWeight: "bold", color: "#333" }}>
+              <div className={styles.percentageTextContainer}>
+                <Text className={styles.percentageText}>
                   {Math.floor(currentFile?.file_track_percentage ?? 0)}%
                 </Text>
               </div>
@@ -748,7 +748,7 @@ const ModernizationPage = () => {
                 <img
                   src="/images/progress.png"
                   alt="Progress illustration"
-                  style={{ width: "160px", height: "160px" }}
+                  className={styles.progressIcon}
                 />
               </div>
 
@@ -760,20 +760,12 @@ const ModernizationPage = () => {
                     style={{ display: "flex", alignItems: "center" }}
                   >
                     <Text
-                      style={{
-                        fontSize: "16px",
-                        marginRight: "4px",
-                        alignSelf: "flex-start",
-                      }}
+                      className={styles.fileLogText1}
                     >
                       •
                     </Text>
                     <Text
-                      style={{
-                        fontSize: "16px",
-                        color: "#333",
-                        marginLeft: "4px",
-                      }}
+                      className={styles.fileLogText2}
                     >
                       {step.agent_type}: {step.agent_message}
                     </Text>
@@ -782,7 +774,7 @@ const ModernizationPage = () => {
               </div>
             </div>
           ) : (
-            <div style={{ padding: "20px", textAlign: "center" }}>
+            <div className={styles.loadingText}>
               <Spinner />
               <Text>Loading file status...</Text>
             </div>
@@ -821,33 +813,20 @@ const ModernizationPage = () => {
 
               {/* Success checkmark and message */}
               <div
-                style={{
-                  textAlign: "center",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginTop: "60px",
-                  height: "50vh",
-                }}
+                className={styles.successContainer}
               >
                 <img
                   src="/images/Checkmark.png"
                   alt="Success checkmark"
-                  style={{
-                    width: "100px",
-                    height: "100px",
-                    marginBottom: "24px",
-                  }}
                 />
                 <Text
                   size={600}
                   weight="semibold"
-                  style={{ marginBottom: "16px" }}
+                  className={styles.mb_16}
                 >
                   No errors! Your files are ready to download.
                 </Text>
-                <Text style={{ marginBottom: "24px" }}>
+                <Text className={styles.mb_24}>
                   Your code has been successfully translated with no errors. All
                   files are now ready for download. Click 'Download' to save
                   them to your local drive.
@@ -1016,11 +995,7 @@ const ModernizationPage = () => {
                         file.errorCount === 0 ? (
                           <>
                             <CheckmarkCircle24Regular
-                              style={{
-                                color: "#0B6A0B",
-                                width: "16px",
-                                height: "16px",
-                              }}
+                              className={styles.checkMarkIcon}
                             />
                           </>
                         ) : file.id === "summary" &&
@@ -1037,31 +1012,19 @@ const ModernizationPage = () => {
                           <>
                             <Text>{file.errorCount}</Text>
                             <DismissCircle24Regular
-                              style={{
-                                color: "#BE1100",
-                                width: "16px",
-                                height: "16px",
-                              }}
+                              className={styles.dismissIcon}
                             />
                           </>
                         ) : file.status === "completed" && file.warningCount ? (
                           <>
                             <Text>{file.warningCount}</Text>
                             <Warning24Regular
-                              style={{
-                                color: "#B89500",
-                                width: "16px",
-                                height: "16px",
-                              }}
+                              className={styles.warningIcon}
                             />
                           </>
                         ) : file.status === "completed" ? (
                           <CheckmarkCircle24Regular
-                            style={{
-                              color: "#0B6A0B",
-                              width: "16px",
-                              height: "16px",
-                            }}
+                            className={styles.completedIcon}
                           />
                         ) : (
                           <Text weight={isProcessing ? "semibold" : "regular"}>

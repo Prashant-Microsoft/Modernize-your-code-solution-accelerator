@@ -3,6 +3,7 @@ import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { updateBatchSummary } from "../../store/modernizationSlice"
 import { useDispatch } from "react-redux"
+import "./bottomBar.scss"
 
 // Define possible upload states
 const UploadState = {
@@ -73,41 +74,21 @@ const BottomBar: React.FC<BottomBarProps> = ({ uploadState = UploadState.IDLE, o
   return (
     <div className="bottom-bar bg-gray-800 flex items-center px-4 h-[10vh] shadow-lg border-t border-gray-200 fixed bottom-0 left-0 right-0">
       <Card
-        style={{
-          backgroundColor: "#FAFAFA",
-          padding: "1rem",
-          borderRadius: "0",
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          zIndex:1000,
-        }}
+        className="cardContainer"
       >
         <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            width: "55%",
-            justifyContent: "space-between",
-            gap: "2rem",
-          }}
+          className="cardContainer2"
         >
           <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "2rem",
-              flexGrow: 1,
-            }}
+            className="cardHeader"
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+            <div className="cardLabel">
               <label htmlFor="currentLanguage" className="text-sm text-gray-900">
                 Translate from
               </label>
               <Dropdown
                 id="currentLanguage"
-                style={{ width: "150px" }}
+                className="width_150"
                 selectedOptions={selectedCurrentLanguage} 
                 onOptionSelect={handleCurrentLanguageChange}
                 defaultValue="Informix"
@@ -115,13 +96,13 @@ const BottomBar: React.FC<BottomBarProps> = ({ uploadState = UploadState.IDLE, o
                 <Option value="Informix">Informix</Option>
               </Dropdown>
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+            <div className="cardLabel">
               <label htmlFor="targetLanguage" className="text-sm text-gray-900">
                 Translate to
               </label>
               <Dropdown
                 id="targetLanguage"
-                style={{ width: "150px" }}
+                className="width_150"
                 selectedOptions={selectedTargetLanguage} // Controlled value, ensures dropdown value syncs with state
                 onOptionSelect={handleTargetLanguageChange} // Correct event handler for value change
                 defaultValue="T-SQL"
@@ -133,19 +114,13 @@ const BottomBar: React.FC<BottomBarProps> = ({ uploadState = UploadState.IDLE, o
             </div>  
           </div>
           <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "1rem",
-            }}
+            className="buttonContainer"
           >
             <Button
               disabled={uploadState === UploadState.IDLE}
               onClick={handleCancel}
               appearance="secondary"
-              style={{
-                minWidth: "80px",
-              }}
+              className="minWidth_80"
             >
               Cancel
             </Button>
@@ -153,9 +128,7 @@ const BottomBar: React.FC<BottomBarProps> = ({ uploadState = UploadState.IDLE, o
               disabled={uploadState !== UploadState.COMPLETED}
               onClick={handleStartTranslating}
               appearance="primary"
-              style={{
-                minWidth: "120px",
-              }}
+              className="minWidth_120"
             >
               Start translating
             </Button>
