@@ -14,7 +14,7 @@ import "./landingPage.scss";
 import UploadButton from "../../components/uploadButton/uploadButton";
 import BottomBar from "../../components/bottomBar/bottomBar";
 import { useNavigate } from "react-router-dom";
-import { resetState } from "../../store/batchSlice";
+import { resetState } from "../../store/uploadFileSlice";
 
 export const LandingPage = (): JSX.Element => {
   const dispatch = useDispatch(); // Add dispatch hook

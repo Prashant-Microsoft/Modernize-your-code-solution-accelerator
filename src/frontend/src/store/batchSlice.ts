@@ -19,89 +19,6 @@ export const deleteBatch = createAsyncThunk<
   }
 );
 
-export const deleteFileFromBatch = createAsyncThunk(
-  'batch/deleteFileFromBatch',
-  async (fileId: string, { rejectWithValue }) => {
-    try {
-      
-      const response:any = await httpUtility.delete(`/delete-file/${fileId}`);
-
-      // Return the response data
-      return response;
-    } catch (error) {
-      // Handle the error
-      return rejectWithValue(error.response?.data || 'Failed to delete batch');
-    }
-  }
-);
-
-// API call for uploading single file in batch
-export const uploadFile = createAsyncThunk('/upload', // Updated action name
-  async (payload: { file: File; batchId: string }, { rejectWithValue }) => {
-    try {
-      const formData = new FormData();
-
-      // Append batch_id
-      formData.append("batch_id", payload.batchId);
-
-      // Append the single file 
-      formData.append("file", payload.file);
-      //formData.append("file_uuid", payload.uuid);
-      
-      const response:any = await httpUtility.post(`/upload`, formData);
-      return response;
-    } catch (error) {
-      return rejectWithValue(error.response?.data || 'Failed to upload file');
-    }
-  }
-);
-
-interface FileState {
-  batchId: string | null;
-  fileList: { fileId: string; originalName: string }[]; // Store file_id & name
-  status: 'idle' | 'loading' | 'succeeded' | 'failed';
-  error: string | null;
-}
-
-// Initial state
-const initialFileState: FileState = {
-  batchId: null,
-  fileList: [],
-  status: 'idle',
-  error: null,
-};
-
-const fileSlice = createSlice({
-  name: 'fileUpload',
-  initialState: initialFileState,
-  reducers: {
-    resetState: (state) => {
-      state.batchId = null;
-      state.fileList = [];
-      state.status = 'idle';
-      state.error = null;
-    },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(uploadFile.fulfilled, (state, action: PayloadAction<{ batch: { batch_id: string }; file: { file_id: string; original_name: string } }>) => {
-        state.batchId = action.payload.batch.batch_id; // Store batch ID
-        state.fileList.push({
-          fileId: action.payload.file.file_id, // Store file ID
-          originalName: action.payload.file.original_name, // Store file name
-        });
-        state.status = 'succeeded';
-      })
-      .addCase(uploadFile.rejected, (state, action: PayloadAction<any>) => {
-        state.error = action.payload;
-        state.status = 'failed';
-      })
-      .addCase(deleteFileFromBatch.fulfilled, (state, action) => {
-        state.fileList = state.fileList.filter(file => file.fileId !== action.meta.arg);
-      });
-  },
-});
-
 
 //API call for Batch Start Processing
 export const startProcessing = createAsyncThunk(
@@ -225,54 +142,7 @@ export const batchSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       });
-    //delete file from batch
-    builder
-      .addCase(deleteFileFromBatch.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(deleteFileFromBatch.fulfilled, (state, action) => {
-        state.loading = false;
-        //state.files = state.files.filter(file => file.file_id !== action.payload.fileId);
-        if (action.payload) {
-          state.fileId = action.payload.file_id;
-          state.message = action.payload.message;
-        } else {
-          state.error = "Unexpected response: Payload is undefined.";
-        }
-      })
-      .addCase(deleteFileFromBatch.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      });
-    // Handle the uploadFilesInBatch action
-    builder
-      .addCase(uploadFile.pending, (state) => {
-        state.uploadingFiles = true;
-        state.error = null;
-      })
-      .addCase(uploadFile.fulfilled, (state, action) => {
-        state.uploadingFiles = false;
-        if (action.payload) {
-          state.batchId = action.payload.batch.batch_id;
-          state.message = "File uploaded successfully";
-
-          // Ensure files array exists before pushing
-          if (!state.files) {
-            state.files = [];
-          }
-
-          // Add the newly uploaded file to state.files
-          state.files.push(action.payload.file);
-        } else {
-          state.error = "Unexpected response: Payload is undefined.";
-        }
-      })
-      .addCase(uploadFile.rejected, (state, action) => {
-        state.uploadingFiles = false;
-        state.error = action.payload as string;
-      });
-    //Start Processing Action Handle  
+ 
     builder
       .addCase(startProcessing.pending, (state) => {
         state.loading = true;
@@ -323,6 +193,4 @@ export const batchSlice = createSlice({
 });
 
 export const { } = batchSlice.actions;
-export const batchReducer = batchSlice.reducer;
-export const fileReducer = fileSlice.reducer;
-export const { resetState } = fileSlice.actions;
+export default batchSlice.reducer;

@@ -1,11 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { batchSlice, fileReducer } from './batchSlice';
+import batchReducer from './batchSlice';
 import historyPanelReducer from './historyPanelSlice';
 import modernizationReducer from './modernizationSlice';
+import fileReducer from './uploadFileSlice';
 
 export const store = configureStore({
     reducer: {
-        batch: batchSlice.reducer,
+        batch: batchReducer,
         fileUpload: fileReducer,
         historyPanel: historyPanelReducer,
         modernizationReducer: modernizationReducer,

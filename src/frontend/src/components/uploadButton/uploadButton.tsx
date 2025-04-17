@@ -9,7 +9,8 @@ import {
   Tooltip,
 } from "@fluentui/react-components";
 import { MessageBar, MessageBarType } from "@fluentui/react";
-import { deleteBatch, deleteFileFromBatch, uploadFile, startProcessing } from '../../store/batchSlice';
+import { deleteBatch, startProcessing } from '../../store/batchSlice';
+import {deleteFileFromBatch, uploadFile} from '../../store/uploadFileSlice';
 import { useDispatch } from 'react-redux';
 import ConfirmationDialog from '../../commonComponents/ConfirmationDialog/confirmationDialogue';
 import { AppDispatch } from '../../store/store'
@@ -403,7 +404,7 @@ const FileUploadZone: React.FC<FileUploadZoneProps> = ({
         {...getRootProps()}
         className='uploadingFilesInfo'
         style={{
-          padding: uploadingFiles.length > 0 ? "16px" : "40px",
+          padding: uploadingFiles.length > 0 ? "16px" : "0px",
           flexDirection: uploadingFiles.length > 0 ? 'row' : 'column',
           justifyContent: uploadingFiles.length > 0 ? 'space-between' : 'center',
           height: uploadingFiles.length > 0 ? '80px' : '251px',
