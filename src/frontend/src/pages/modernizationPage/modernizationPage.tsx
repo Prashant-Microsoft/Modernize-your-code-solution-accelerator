@@ -101,6 +101,11 @@ const ModernizationPage = () => {
   const { batchId } = useParams<{ batchId: string }>();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const [selectedFilebg, setSelectedFile] = useState<string | null>(null);
+
+  const handleClick = (file: string) => {
+    setSelectedFile(file === selectedFilebg ? null : file);
+  };
 
   //const [batchSummary, setBatchSummary] = useState<BatchSummary | null>(null);
   const styles = useStyles();
@@ -978,6 +983,10 @@ const ModernizationPage = () => {
                         // Don't allow selecting queued files
                         if (file.status === "ready_to_process") return;
                         setSelectedFileId(file.id);
+                        handleClick(file.id);
+                      }}
+                      style={{
+                        backgroundColor: selectedFilebg === file.id ? "#EBEBEB" : "var(--NeutralBackground1-Rest)",
                       }}
                     >
                       {isSummary ? (
