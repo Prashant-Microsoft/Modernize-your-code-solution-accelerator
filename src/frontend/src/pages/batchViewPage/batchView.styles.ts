@@ -250,7 +250,7 @@ export const useStyles = makeStyles({
     height: "16px"
   },
   successIcon:{
-    color: "0B6A0B", 
+    color: "#0B6A0B", 
     width: "16px", 
     height: "16px"
   },
