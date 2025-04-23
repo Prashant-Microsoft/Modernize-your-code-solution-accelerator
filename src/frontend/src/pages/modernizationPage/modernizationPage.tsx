@@ -850,7 +850,7 @@ const ModernizationPage = () => {
             <div
               className={styles.summaryContent}
               style={{
-                width: isPanelOpen ? "calc(100% - 340px)" : "96%",
+                width: isPanelOpen ? "calc(100% - 375px)" : "96%",
                 transition: "width 0.3s ease-in-out",
               }}
             >

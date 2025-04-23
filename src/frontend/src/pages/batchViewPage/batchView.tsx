@@ -217,7 +217,7 @@ const BatchStoryPage = () => {
         <div
           className={styles.summaryHeader}
           style={{
-            width: isPanelOpen ? "calc(102% - 340px)" : "96%",
+            width: isPanelOpen ? "calc(102% - 375px)" : "96%",
           }}
         >
           <Text size={500} weight="semibold">
