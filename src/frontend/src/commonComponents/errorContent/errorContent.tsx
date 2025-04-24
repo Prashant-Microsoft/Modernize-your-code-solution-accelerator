@@ -18,17 +18,19 @@ export const ErrorContent = (props) => {
   return (
     <div>
       <Accordion collapsible multiple defaultValue={errorFiles.map(file => file.file_id)}>
-        {errorFiles.map((file, idx) => (
+        {errorFiles.map((file, idx) =>{   
+          return (
+
           <AccordionItem key={idx} value={file.file_id}>
             <AccordionHeader>
               <TbSql className="tbSql" />
               {file.name} ({file.error_count})
             </AccordionHeader>
             <AccordionPanel>
-              <ErrorComponent file/>
+              <ErrorComponent file={file}/>
             </AccordionPanel>
           </AccordionItem>
-        ))}
+        )})}
       </Accordion>
     </div>
   );

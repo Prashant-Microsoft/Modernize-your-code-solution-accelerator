@@ -1,6 +1,5 @@
-import { ListItem, tokens,Text } from "@fluentui/react-components";
+import { List,ListItem, tokens,Text } from "@fluentui/react-components";
 import { DismissCircle24Regular, Warning24Regular, InfoRegular } from "@fluentui/react-icons";
-import { List } from "lucide-react";
 import React from "react";
 import "./errorComponent.scss";
 
@@ -8,9 +7,9 @@ const ErrorComponent = (props) => {
     const {file} = props;
     return (
       <>
-        {file.file_logs.length > 0 ? (
+        {file?.file_logs?.length > 0 ? (
           <List className="pl_16">
-            {file.file_logs.map((log, logIdx) => (
+            {file.file_logs?.map((log, logIdx) => (
               <ListItem key={logIdx} className="ml_8">
                 <Text className="infoText">
                   <span className="iconContainer">

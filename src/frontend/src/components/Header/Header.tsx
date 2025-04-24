@@ -1,6 +1,7 @@
 import React from "react";
 import { Subtitle2 } from "@fluentui/react-components";
 import "./Header.scss"; // Import for styling
+import { useNavigate } from "react-router-dom";
 /**
  * @component
  * @name Header
@@ -18,6 +19,7 @@ type HeaderProps = {
 };
 
 const Header: React.FC<HeaderProps> = ({ title = "Contoso", subtitle, children }) => {
+  const navigate = useNavigate();
   return (
     <header
       className="header"
@@ -25,6 +27,10 @@ const Header: React.FC<HeaderProps> = ({ title = "Contoso", subtitle, children }
     >
       <div
         className="headerContainer"
+        onClick={() => {
+          navigate("/"); // Redirect to home page on logo click
+        }
+      }
       >
         {/* Render custom logo or default MsftColor logo */}
         {/* <Avatar shape="square" color={null} icon={logo || <MsftColor />} /> */}
