@@ -1,6 +1,6 @@
 import React, { ReactNode, ReactElement } from "react";
 import PanelToolbar from "../Panels/PanelLeftToolbar.js"; // Import to identify toolbar
-import "./Content.scss"; // Import for styling
+import "./content.scss"; // Import for styling
 
 interface ContentProps {
     children?: ReactNode;

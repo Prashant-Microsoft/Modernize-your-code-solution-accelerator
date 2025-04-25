@@ -26,7 +26,7 @@ export const ErrorContent = (props) => {
               <TbSql className="tbSql" />
               {file.name} ({file.error_count})
             </AccordionHeader>
-            <AccordionPanel>
+            <AccordionPanel style={{margin : "0px 12px 12px 12px"}}>
               <ErrorComponent file={file}/>
             </AccordionPanel>
           </AccordionItem>
