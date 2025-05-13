@@ -32,8 +32,7 @@ jobs:
           echo "Generating a unique resource group name..."
           TIMESTAMP=$(date +%Y%m%d%H%M%S)
           COMMON_PART="ci-mycsa"
-          # UNIQUE_RG_NAME="${COMMON_PART}${TIMESTAMP}"
-          UNIQUE_RG_NAME="ci-mycsa20250512102836"
+          UNIQUE_RG_NAME="${COMMON_PART}${TIMESTAMP}"
           echo "RESOURCE_GROUP_NAME=${UNIQUE_RG_NAME}" >> $GITHUB_ENV
           echo "Generated Resource_GROUP_PREFIX: ${UNIQUE_RG_NAME}" 
   
@@ -52,37 +51,37 @@ jobs:
           fi
 
 
-      # - name: Deploy Bicep Template
-      #   id: deploy
-      #   run: |
-      #     set -e
-      #     az deployment group create \
-      #       --resource-group ${{ env.RESOURCE_GROUP_NAME }} \
-      #       --template-file infra/main.bicep \
-      #       --parameters AzureAiServiceLocation=northcentralus Prefix=codegen
+      - name: Deploy Bicep Template
+        id: deploy
+        run: |
+          set -e
+          az deployment group create \
+            --resource-group ${{ env.RESOURCE_GROUP_NAME }} \
+            --template-file infra/main.bicep \
+            --parameters AzureAiServiceLocation=northcentralus Prefix=codegen
 
 
-      # - name: Send Notification on Failure
-      #   if: failure()
-      #   run: |
-      #     RUN_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+      - name: Send Notification on Failure
+        if: failure()
+        run: |
+          RUN_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
       
-      #     # Construct the email body
-      #     EMAIL_BODY=$(cat <<EOF
-      #     {
-      #       "body": "<p>Dear Team,</p><p>We would like to inform you that the Modernize-your-code-solution-accelerator Automation process has encountered an issue and has failed to complete successfully.</p><p><strong>Build URL:</strong> ${RUN_URL}<br> ${OUTPUT}</p><p>Please investigate the matter at your earliest convenience.</p><p>Best regards,<br>Your Automation Team</p>"
-      #     }
-      #     EOF
-      #     )
+          # Construct the email body
+          EMAIL_BODY=$(cat <<EOF
+          {
+            "body": "<p>Dear Team,</p><p>We would like to inform you that the Modernize-your-code-solution-accelerator Automation process has encountered an issue and has failed to complete successfully.</p><p><strong>Build URL:</strong> ${RUN_URL}<br> ${OUTPUT}</p><p>Please investigate the matter at your earliest convenience.</p><p>Best regards,<br>Your Automation Team</p>"
+          }
+          EOF
+          )
       
-      #     # Send the notification
-      #     curl -X POST "${{ secrets.LOGIC_APP_URL }}" \
-      #       -H "Content-Type: application/json" \
-      #       -d "$EMAIL_BODY" || echo "Failed to send notification"
+          # Send the notification
+          curl -X POST "${{ secrets.LOGIC_APP_URL }}" \
+            -H "Content-Type: application/json" \
+            -d "$EMAIL_BODY" || echo "Failed to send notification"
 
 
-      - name: Get Log Analytics Workspace from Resource Group
-        id: get_log_analytics_workspace
+      - name: Get Log Analytics Workspace and OpenAI from Resource Group
+        id: get_azure_resources
         run: |
 
           set -e
@@ -98,13 +97,7 @@ jobs:
             echo "LOG_ANALYTICS_WORKSPACE_NAME=${log_analytics_workspace_name}" >> $GITHUB_ENV
             echo "Log Analytics workspace name: ${log_analytics_workspace_name}" 
           fi
-        
-      - name: Get OpenAI, App Service and Container Registry Resource from Resource Group
-        id: get_openai_resource
-        run: |
 
-
-          set -e
           echo "Fetching OpenAI resource from resource group ${{ env.RESOURCE_GROUP_NAME }}..."
           
           # Run the az resource list command to get the OpenAI resource name
@@ -199,8 +192,7 @@ jobs:
           IFS=',' read -r -a resources_to_check <<< "$stripped_keyvaults"
 
           # Append new resources to the array
-          resources_to_check+=("${{ env.LOG_ANALYTICS_WORKSPACE_NAME }}")
-          resources_to_check+=("${{ env.OPENAI_RESOURCE_NAME }}")
+          resources_to_check+=("${{ env.LOG_ANALYTICS_WORKSPACE_NAME }}" "${{ env.OPENAI_RESOURCE_NAME }}")
 
           echo "List of resources to check: ${resources_to_check[@]}"
 
@@ -291,3 +283,4 @@ jobs:
               echo "KeyVault '$keyvault_name' is not soft-deleted. No action taken."
             fi
           done
+          echo "Resource purging completed successfully"
